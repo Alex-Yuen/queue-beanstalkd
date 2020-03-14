@@ -8,12 +8,10 @@
 
 namespace an\queue;
 
-use an\Queue;
 use an\queue\command\Test;
 
 class Service extends \think\Service {
     public function register() {
-        $this->app->bind('queue', Queue::class);
         $config = $this->app->config->get('queue');
         $_config = $this->app->config->get('beanstalkd');
         $config['connections']['beanstalkd'] = $_config;

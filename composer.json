@@ -30,7 +30,7 @@
   },
   "require": {
     "php": ">=7.3",
-    "topthink/think-queue": "^3.0",
+    "topthink/think-queue": "3.0.x-dev",
     "pda/pheanstalk": "^4.0"
   }
 }

@@ -1,70 +1,55 @@
 <?php
 /**
  * 饭粒科技
- * Date: 2020/3/14 * Time: 15:26
+ * Date: 2020/3/14 * Time: 19:23
  * Author: AnQin <an-qin@qq.com>
  * Copyright © 2020. Hangzhou FanLi Technology Co., Ltd All rights reserved.
  */
 
 namespace an\queue\job;
 
+
+use an\queue\connector\Beanstalkd as Banstalkd;
 use think\{queue\Job, App};
-use \an\queue\connector\Beanstalkd as Banstalkd;
 
 class Beanstalkd extends Job {
-    protected ?Banstalkd $beanstalk = null;
-    protected array $parseRaw = [];
-    protected ?\Pheanstalk\Job $job = null;
-    protected int $attempts = 1;
+    private ?\Pheanstalk\Job $job = null;
+    private int $attempts = 1;
+    private array $parseRaw = [];
 
-    public function __construct(App $app, Banstalkd $beanstalk, \Pheanstalk\Job $job, string $connection,string $queue) {
-        $this->job = $job;
+    public function __construct(App $app, Banstalkd $beanstalk, \Pheanstalk\Job $job, string $connection, string $queue) {
         $this->queue = $queue;
-        $this->beanstalk = $beanstalk;
-        $this->parseRaw = $this->payload();
         $this->app = $app;
-        $this->queue = $queue;
+        $this->job = $job;
+        /** @var Banstalkd instance */
+        $this->instance = $beanstalk;
         $this->connection = $connection;
-
-        $this->attempts = $this->parseRaw['attempts'] ?? 1;
+        $this->attempts = $this->payload()['attempts'] ?? 1;
     }
 
-    public function payload() {
-        return empty($this->parseRaw) ? $this->beanstalk->unpack($this->job->getData()) : $this->parseRaw;
+    public function payload(): array {
+        return empty($this->parseRaw) ? $this->parseRaw = $this->instance->unpack($this->job->getData()) : $this->parseRaw;
     }
 
-    public function attempts(): int {
-        return $this->attempts;
-    }
-
-    public function getJobId() {
+    public function getJobId(): int {
         return $this->job->getId();
     }
 
-    /**
-     * 重新发布任务
-     * @param int $delay
-     * @return void
-     */
+    public function attempts() {
+        return $this->attempts;
+    }
+
     public function release($delay = 0) {
         parent::release($delay);
         $this->delete();
-        $this->beanstalk->release($this->queue, $this->getRawBody(), $delay, ++$this->attempts);
+        $this->instance->release($this->queue, $this->payload(), $delay, ++$this->attempts);
     }
 
-    /**
-     * 删除任务
-     * @return void
-     */
     public function delete() {
         parent::delete();
-        $this->beanstalk->deleteReserved($this->job);
+        $this->instance->deleteReserved($this->job);
     }
 
-    /**
-     * Get the raw body string for the job.
-     * @return array
-     */
     public function getRawBody(): array {
         return $this->parseRaw;
     }

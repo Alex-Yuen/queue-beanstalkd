@@ -9,7 +9,9 @@
 namespace an\queue\connector;
 
 use think\queue\Connector;
+use \an\queue\job\Beanstalkd as BeanstalkdJob;
 use Pheanstalk\{Connection, Job, Pheanstalk, SocketFactory, Contract\PheanstalkInterface};
+use Throwable;
 
 class Beanstalkd extends Connector {
     /** @var  Pheanstalk */
@@ -49,6 +51,12 @@ class Beanstalkd extends Connector {
         return $serialize($data);
     }
 
+    protected function createPayload($job, $data = '') {
+        $payload = $this->createPayloadArray($job, $data);
+
+        return $payload;
+    }
+
     public function size($queue) {
         return -1;
     }
@@ -57,12 +65,12 @@ class Beanstalkd extends Connector {
         return $this->pushRaw($this->createPayload($job, $data), $queue);
     }
 
-    public function pop($queue = null): ?\an\queue\job\Beanstalkd {
-        $queue = $queue ?: $this->options['queue'];
+    public function pop($queue = null): ?BeanstalkdJob {
+        $queue = $queue ?? $this->options['queue'];
         try {
             $job = $this->beanstalk->watch($queue)->reserveWithTimeout($this->options['reserve_timeout']);
-            if ($job instanceof Job) return new \an\queue\job\Beanstalkd($this->app, $this, $job, $this->connection, $queue);
-        } catch (\Throwable $e) {
+            if ($job instanceof Job) return new BeanstalkdJob($this->app, $this, $job, $this->connection, $queue);
+        } catch (Throwable $e) {
         }
 
         return null;

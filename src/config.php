@@ -9,10 +9,10 @@
 return [
     'type'            => \an\queue\connector\Beanstalkd::class,
     'queue'           => 'default',
-    'host'            => '127.0.0.1',
+    'host'            => '192.168.31.8',
     'port'            => 11300,
     'imp'             => 1,
     'timeout'         => 5,
     'reserve_timeout' => 10,
-    'serialize'       => ['msgpack_pack', 'msgpack_unpack'],
+    'serialize'       => [],
 ];
