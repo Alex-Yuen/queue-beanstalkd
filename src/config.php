@@ -16,5 +16,5 @@ return [
     'imp'             => 1,
     'timeout'         => 5,
     'reserve_timeout' => 10,
-    'serialize'       => ['json_encode', 'json_decode'],
+    'serialize'       => ['serialize', 'unserialize'],
 ];

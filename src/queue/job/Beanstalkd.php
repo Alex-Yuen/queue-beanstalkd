@@ -51,7 +51,7 @@ class Beanstalkd extends Job {
         $this->banstalkd->deleteReserved($this->job);
     }
 
-    public function getRawBody(): ?array {
+    public function getRawBody(): array {
         return $this->payload();
     }
 }

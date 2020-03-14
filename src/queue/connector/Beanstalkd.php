@@ -70,6 +70,10 @@ class Beanstalkd extends Connector {
             $job = $this->beanstalk->watch($queue)->reserveWithTimeout($this->options['reserve_timeout']);
             if ($job instanceof Job) return new BeanstalkdJob($this->app, $this, $job, $this->connection, $queue);
         } catch (Throwable $e) {
+            if ($job instanceof Job) {
+                print('任务ID:' . $job->getId() . '出现异常已自动删除' . PHP_EOL);
+                $this->beanstalk->delete($job);
+            }
         }
 
         return null;
