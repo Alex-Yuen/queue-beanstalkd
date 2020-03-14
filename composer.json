@@ -1,0 +1,36 @@
+{
+  "name": "anqin/beanstalkd",
+  "description": "beanstalkd queue for thinkphp6",
+  "license": "Apache-2.0",
+  "keywords": [
+    "beanstalkd",
+    "think queue",
+    "think beanstalkd"
+  ],
+  "authors": [
+    {
+      "name": "AnQin",
+      "email": "an-qin@qq.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "an\\": "src/"
+    }
+  },
+  "extra": {
+    "think": {
+      "services": [
+        "an\\queue\\Service"
+      ],
+      "config": {
+        "beanstalkd": "src/config.php"
+      }
+    }
+  },
+  "require": {
+    "php": ">=7.3",
+    "topthink/think-queue": "^3.0",
+    "pda/pheanstalk": "^4.0"
+  }
+}
