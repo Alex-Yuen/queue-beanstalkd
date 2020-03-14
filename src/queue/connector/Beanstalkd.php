@@ -46,14 +46,13 @@ class Beanstalkd extends Connector {
      * @param mixed $data
      * @return string
      */
-    public function pack($data): string {
-        $serialize = $options['serialize'][0] ?? 'serialize';
+    public function pack($data) {
+        $serialize = $this->options['serialize'][0] ?? 'serialize';
         return $serialize($data);
     }
 
     protected function createPayload($job, $data = '') {
         $payload = $this->createPayloadArray($job, $data);
-
         return $payload;
     }
 
@@ -112,8 +111,12 @@ class Beanstalkd extends Connector {
      * @return mixed
      */
     public function unpack($data) {
-        $unserialize = $options['serialize'][1] ?? 'unserialize';
-        return $unserialize($data);
+        $unserialize = $this->options['serialize'][1] ?? 'unserialize';
+        try {
+            return $unserialize($data);
+        } catch (Throwable$e) {
+            return unserialize($data);
+        }
     }
 
     protected function createObjectPayload($job) {

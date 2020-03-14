@@ -6,13 +6,15 @@
  * Copyright © 2020. Hangzhou FanLi Technology Co., Ltd All rights reserved.
  */
 
+use \an\queue\connector\Beanstalkd;
+
 return [
-    'type'            => \an\queue\connector\Beanstalkd::class,
+    'type'            => Beanstalkd::class,
     'queue'           => 'default',
     'host'            => '192.168.31.8',
     'port'            => 11300,
     'imp'             => 1,
     'timeout'         => 5,
     'reserve_timeout' => 10,
-    'serialize'       => [],
+    'serialize'       => ['json_encode', 'json_decode'],
 ];
