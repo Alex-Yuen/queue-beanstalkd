@@ -8,8 +8,6 @@
 
 namespace an\queue;
 
-use an\queue\command\Test;
-
 class Service extends \think\Service {
     public function register() {
         $config = $this->app->config->get('queue');
@@ -21,6 +19,5 @@ class Service extends \think\Service {
     }
 
     public function boot() {
-        $this->commands([Test::class]);
     }
 }

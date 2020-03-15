@@ -1,6 +1,6 @@
 {
   "name": "anqin/beanstalkd",
-  "description": "beanstalkd queue for thinkphp6",
+  "description": "适用于thinkphp6的beanstalkd消息队列",
   "license": "Apache-2.0",
   "keywords": [
     "beanstalkd",
@@ -29,7 +29,7 @@
     }
   },
   "require": {
-    "php": ">=7.3",
+    "php": ">=7.4",
     "topthink/think-queue": "3.0.x-dev",
     "pda/pheanstalk": "^4.0"
   }

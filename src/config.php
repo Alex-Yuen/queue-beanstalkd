@@ -7,14 +7,16 @@
  */
 
 use \an\queue\connector\Beanstalkd;
+use Pheanstalk\SocketFactory;
+use think\facade\Env;
 
 return [
     'type'            => Beanstalkd::class,
-    'queue'           => 'default',
-    'host'            => '192.168.31.8',
-    'port'            => 11300,
-    'imp'             => 1,
-    'timeout'         => 5,
-    'reserve_timeout' => 10,
-    'serialize'       => ['serialize', 'unserialize'],
+    'queue'           => Env::get('beanstalkd.queue', 'default'),//默认队列分组,默认分组必消费
+    'host'            => Env::get('beanstalkd.host', '127.0.0.1'),//服务器IP
+    'port'            => Env::get('beanstalkd.port', 11300),//端口
+    'imp'             => Env::get('beanstalkd.imp', SocketFactory::AUTODETECT),//连接模式
+    'timeout'         => Env::get('beanstalkd.timeout', 5),//连接服务器超时时间
+    'reserve_timeout' => Env::get('beanstalkd.reserve_timeout', 10),//消费队列的等待时间
+    'serialize'       => ['serialize', 'unserialize'],//序列化函数
 ];
