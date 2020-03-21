@@ -16,7 +16,7 @@
   "autoload": {
     "psr-4": {
       "an\\": "src",
-      "think\\queue": "src/think/src"
+      "think\\": "src/think/src"
     },
     "files": [
       "src/think/common.php"
