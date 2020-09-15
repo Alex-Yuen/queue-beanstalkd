@@ -15,37 +15,24 @@
   ],
   "autoload": {
     "psr-4": {
-      "an\\": "src",
-      "think\\": "src/think/src"
-    },
-    "files": [
-      "src/think/common.php"
-    ]
+      "an\\": "src"
+    }
   },
   "extra": {
     "think": {
       "services": [
-        "an\\queue\\Service",
-        "think\\queue\\Service"
+        "an\\queue\\Service"
       ],
       "config": {
-        "beanstalkd": "src/config.php",
-        "queue": "src/think/config.php"
+        "beanstalkd": "src/config.php"
       }
     }
   },
   "require": {
     "php": ">=7.4",
     "pda/pheanstalk": "^4.0",
-    "topthink/think-helper": "^3.0.4",
-    "topthink/framework": "^6.0",
-    "symfony/process": "^4.2",
-    "nesbot/carbon": "^2.16"
+    "topthink/think-queue": "^3.0"
   },
   "require-dev": {
-    "ext-json": "*",
-    "phpunit/phpunit": "^6.2",
-    "mockery/mockery": "^1.2",
-    "topthink/think-migration": "^3.0.0"
   }
 }
