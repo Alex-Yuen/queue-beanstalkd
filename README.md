@@ -35,7 +35,6 @@ return [
     //...其他默认配置
 ];
 ~~~
-配置文件在config/beanstalkd.php
 
 ## 使用
 使用方式与think-queue一致
