@@ -6,7 +6,7 @@ Queue-Beanstalkd
 ## 安装
 
 ~~~
-composer create-project anqin/beanstalkd
+composer require anqin/beanstalkd
 ~~~
 ## 卸载
 安装后默认启用beanstalkd队列,如取消请直接卸载
