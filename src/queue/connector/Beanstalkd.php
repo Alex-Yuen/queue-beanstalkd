@@ -56,7 +56,7 @@ class Beanstalkd extends Connector {
         return $payload;
     }
 
-    public function size($queue) {
+    public function size($queue = null) {
         return -1;
     }
 
